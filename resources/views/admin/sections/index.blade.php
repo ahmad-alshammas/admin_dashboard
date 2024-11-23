@@ -33,17 +33,18 @@
                     <td>{{ $section->title }}</td>
                     <td>{{ $section->order }}</td>
                     <td>{{ $section->total }}</td>
-                    <td>{{ $section->course->title }}</td>
+                    <td>{{ optional($section->course)->title }}</td>
                     <td>
                         <a href="{{route('sections.edit', $section->id)}}"><button type="button" class="btn btn-info">Edit</button></a>
                         
-                        <form action="{{route('sections.destroy', $section->id) }}" method="POST" style="display: inline;">
+                        <form id="delete-form-{{ $section->id }}" action="{{ route('sections.destroy', $section->id) }}" method="POST" style="display: none;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger">
-                                Delete
-                            </button>
                         </form>
+                        
+                        <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $section->id }})">
+                            Delete
+                        </button>
                             
                         
                     </td>
@@ -54,6 +55,24 @@
         </div>
     </div>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmDelete(sectionId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This action cannot be undone!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(`delete-form-${sectionId}`).submit();
+            }
+        });
+    }
+</script>
 
 @endsection

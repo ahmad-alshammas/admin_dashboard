@@ -70,8 +70,10 @@ class CourseCategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(CourseCategory $category)
     {
-        //
+        $category -> delete();
+        return redirect()->route('categories.index')->with('successDelete', 'Category deleted successfully!');
+
     }
 }

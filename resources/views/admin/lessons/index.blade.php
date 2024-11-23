@@ -34,11 +34,14 @@
                         <td>{{ $lesson->order }}</td>
                         <td>
                             <a href="{{ route('lessons.edit', $lesson->id) }}" class="btn btn-info">Edit</a>
-                            <form action="{{ route('lessons.destroy', $lesson->id) }}" method="POST" style="display:inline-block;">
+                            <form id="delete-form-{{ $lesson->id }}" action="{{ route('lessons.destroy', $lesson->id) }}" method="POST" style="display: none;">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-danger">Delete</button>
                             </form>
+                            
+                            <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $lesson->id }})">
+                                Delete
+                            </button>
                         </td>
                     </tr>
                 @endforeach
@@ -48,5 +51,23 @@
     </div>
 </div>
 
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmDelete(lessonId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This action cannot be undone!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(`delete-form-${lessonId}`).submit();
+            }
+        });
+    }
+</script>
 @endsection

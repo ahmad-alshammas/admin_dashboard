@@ -5,11 +5,6 @@
 @section ('content')
 
 <div class="card shadow mb-4">
-
-{{--     
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
-    </div> --}}
     <div class="card-body">
         <div class="table-responsive">
 
@@ -33,15 +28,14 @@
                     <td>
                         <a href="{{route('categories.edit', $categoy->category_id)}}"><button type="button" class="btn btn-info">Edit</button></a>
                         
-                        <form action="{{route('categories.destroy', $categoy->category_id) }}" method="POST" style="display: inline;">
+                        <form id="delete-form-{{ $categoy->category_id }}" action="{{route('categories.destroy', $categoy->category_id) }}" method="POST" style="display: none;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger">
-                                Delete
-                            </button>
                         </form>
-                            
-                        
+
+                        <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $categoy->category_id }})">
+                            Delete
+                        </button>
                     </td>
                 </tr>
                 @endforeach       
@@ -50,5 +44,25 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmDelete(categoryId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This action cannot be undone!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(`delete-form-${categoryId}`).submit();
+            }
+        });
+    }
+</script>
 
 @endsection

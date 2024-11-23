@@ -27,21 +27,43 @@
             <tr>
                 <td>{{ $enrollment->id }}</td>
                 <td>{{ $enrollment->user->name }}</td>
-                <td>{{ $enrollment->course->title }}</td>
+                <td>{{ optional($enrollment->course)->title }}</td>
                 <td>{{ $enrollment->created_at }}</td>
                 <td>
                     <a href="{{ route('enrollments.edit', $enrollment->id) }}" class="btn btn-info">Edit</a>
-                    <form action="{{ route('enrollments.destroy', $enrollment->id) }}" method="POST" style="display:inline;">
+                    <form id="delete-form-{{ $enrollment->id }}" action="{{ route('enrollments.destroy', $enrollment->id) }}" method="POST" style="display: none;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
+                    
+                    <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $enrollment->id }})">
+                        Delete
+                    </button>
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmDelete(enrollmentId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This action cannot be undone!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(`delete-form-${enrollmentId}`).submit();
+            }
+        });
+    }
+</script>
 
 
 @endsection
