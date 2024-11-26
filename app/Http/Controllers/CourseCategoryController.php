@@ -29,6 +29,7 @@ class CourseCategoryController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         CourseCategory::create($request->all());
 
         return redirect()->route('categories.index')->with('successAdd', 'Category created successfully!');

@@ -1,4 +1,4 @@
-@extends('admin.layout');
+@extends('admin.layout')
 
 @section('title') users @endsection
 
@@ -7,8 +7,6 @@
 
 <div class="card shadow mb-4">
 
-    
-   
     <div class="card-body">
         <div class="table-responsive">
 
