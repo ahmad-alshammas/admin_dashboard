@@ -61,7 +61,7 @@
                             <h4>${{ $course->price }}</h4>
             
                             <!-- عنوان الدورة -->
-                            <a href="#">
+                            <a href="{{ route('course_detail', $course->id) }}">
                                 <h3>{{ $course->title }}</h3>
                             </a>
             

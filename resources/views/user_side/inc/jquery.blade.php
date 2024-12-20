@@ -1,5 +1,5 @@
     <!-- jquery -->
-    <script src="/public/user_side/js/jquery-1.12.1.min.js"></script>
+    <script src="user_side/js/jquery-1.12.1.min.js"></script>
     <!-- popper js -->
     <script src="{{asset('user_side/js/popper.min.js')}}"></script>
     <!-- bootstrap js -->

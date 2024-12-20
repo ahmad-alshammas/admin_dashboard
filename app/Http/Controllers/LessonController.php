@@ -13,7 +13,7 @@ class LessonController extends Controller
      */
     public function index()
     {
-        $lessons = Lesson::with('section')->get();
+        $lessons = Lesson::with('section.course')->get();
         return view('admin.lessons.index', compact('lessons'));
     }
 
@@ -30,16 +30,28 @@ class LessonController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
+    {   
+        $request->validate([
+            'section_id' => 'required|exists:sections,id',
+            'title' => 'required|string|max:255',
+            'content_file' => 'required|file|mimes:mp4,mov,avi|max:102400', // الحد الأقصى 100 ميجابايت
+            'order' => 'required|integer',
+        ]);
+    
+        // تخزين الفيديو
+        $filePath = $request->file('content_file')->store('videos', 'public');
+    
+        // إنشاء الدرس
         Lesson::create([
             'section_id' => $request->section_id,
             'title' => $request->title,
-            'content_url' => $request->content_url,
+            'content_url' => $filePath, // حفظ مسار الفيديو
             'order' => $request->order,
         ]);
-
+    
         return redirect()->route('lessons.index')->with('successAdd', 'Lesson added successfully!');
     }
+    
 
     /**
      * Display the specified resource.

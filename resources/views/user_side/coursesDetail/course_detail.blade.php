@@ -2,367 +2,215 @@
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Etrain</title>
-    <link rel="icon" href="img/favicon.png">
-    <!-- Bootstrap CSS -->
-    @extends('user_side.inc.bootstrap')
+    <title>Course Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    @include('user_side.inc.bootstrap')
+    <style>
+        .course-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 35px;
+        }
+
+        .lessons-list {
+            width: 30%;
+            max-height: 80vh;
+            overflow-y: auto;
+            border-right: 1px solid #ddd;
+            padding-right: 10px;
+        }
+
+        .video-player {
+            width: 70%;
+        }
+
+        .lesson-item {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+        }
+
+        .lesson-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        /* إضافات لتنسيق العناوين والفيديو */
+        .lesson-item h5 {
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        .lesson-item p {
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .video-player video {
+            width: 100%;
+            height: 400px;
+            border: 1px solid #ddd;
+        }
+
+        .video-player h4 {
+            margin-bottom: 15px;
+        }
+
+        .mt-4, .my-4 {
+            margin-top: 6.5rem !important;
+        }
+
+        .card-header button {
+    font-size: 1.1rem;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.card-header button:hover {
+    text-decoration: underline;
+}
+
+.lesson-item {
+    padding: 8px 0;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.lesson-item:hover {
+    background-color: #f8f9fa;
+}
+
+.lesson-item h6 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+}
+
+.lesson-item p {
+    color: #6c757d;
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+
+        @media (max-width: 768px) {
+            .course-container {
+                flex-direction: column; /* جعل العناصر عمودية في الشاشات الصغيرة */
+            }
+
+            .lessons-list, .video-player {
+                width: 100%; /* جعل كل عنصر يأخذ 100% من العرض */
+                margin-bottom: 20px; /* إضافة مسافة بين العناصر */
+            }
+
+            h1 {
+                font-size: 1.5rem; /* تصغير حجم العنوان */
+                margin-top: 40px; /* تعديل المسافة بين العنوان و navbar */
+            }
+
+            .lesson-item h5 {
+                font-size: 1rem; /* تصغير حجم العناوين داخل الدروس */
+            }
+
+            .lesson-item p {
+                font-size: 0.8rem; /* تصغير حجم النص داخل الدروس */
+            }
+
+            .video-player video {
+                height: 250px; /* تصغير حجم الفيديو في الشاشات الصغيرة */
+            }
+        }
+
+        /* تحسين الـ responsive لشاشات أصغر من 576px */
+        @media (max-width: 576px) {
+            h1 {
+                font-size: 1.2rem; /* تصغير الحجم أكثر */
+                margin-top: 50px; /* تقليل المسافة بين العنوان والـ navbar */
+            }
+
+            .lesson-item h5 {
+                font-size: 1rem; /* تصغير حجم العناوين داخل الدروس */
+            }
+
+            .lesson-item p {
+                font-size: 0.75rem; /* تصغير النصوص في شاشات أصغر */
+            }
+
+            .video-player video {
+                height: 200px; /* تصغير حجم الفيديو في الشاشات الصغيرة جداً */
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <!--::header part start::-->
-    @extends('user_side.inc.header')
-    <!-- Header part end-->
+    @include('user_side.inc.header')
 
-    <!-- breadcrumb start-->
-    <section class="breadcrumb breadcrumb_bg">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb_iner text-center">
-                        <div class="breadcrumb_iner_item">
-                            <h2>Our Blog</h2>
-                            <p>Home<span>/</span>Blog</p>
+    <div class="container">
+        <h1 class="mt-4">Course: <span style="color: #007bff;">{{ $course->title }}</span></h1>
+
+        <div class="course-container">
+            <!-- قائمة الدروس -->
+            <div class="lessons-list">
+                <h4>Lessons</h4>
+            
+                <div id="accordion">
+                    @foreach ($course->sections as $index => $section)
+                        <div class="card">
+                            <div class="card-header" id="heading{{ $index }}">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapse{{ $index }}" aria-expanded="false" aria-controls="collapse{{ $index }}">
+                                        <i class="bi bi-chevron-right"></i> {{ $section->title }} 
+                                    </button>
+                                </h5>
+                            </div>
+            
+                            <div id="collapse{{ $index }}" class="collapse" aria-labelledby="heading{{ $index }}" data-bs-parent="#accordion">
+                                <div class="card-body">
+                                    @foreach ($section->lessons as $lesson)
+                                        <div class="lesson-item" onclick="playVideo('{{ asset('storage/' . $lesson->content_url) }}')">
+                                            <h6><i class="bi bi-play-circle"></i> {{ $lesson->title }}</h6>
+                                            <p>Order: {{ $lesson->order }}</p>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
-        </div>
-    </section>
-    <!-- breadcrumb start-->
 
-
-    <!--================Blog Area =================-->
-    <section class="blog_area section_padding">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mb-5 mb-lg-0">
-                    <div class="blog_left_sidebar">
-                        <article class="blog_item">
-                            <div class="blog_item_img">
-                                <img class="card-img rounded-0" src="img/blog/single_blog_1.png" alt="">
-                                <a href="#" class="blog_item_date">
-                                    <h3>15</h3>
-                                    <p>Jan</p>
-                                </a>
-                            </div>
-
-                            <div class="blog_details">
-                                <a class="d-inline-block" href="single-blog.html">
-                                    <h2>Google inks pact for new 35-storey office</h2>
-                                </a>
-                                <p>That dominion stars lights dominion divide years for fourth have don't stars is that
-                                    he earth it first without heaven in place seed it second morning saying.</p>
-                                <ul class="blog-info-link">
-                                    <li><a href="#"><i class="far fa-user"></i> Travel, Lifestyle</a></li>
-                                    <li><a href="#"><i class="far fa-comments"></i> 03 Comments</a></li>
-                                </ul>
-                            </div>
-                        </article>
-
-                        <article class="blog_item">
-                            <div class="blog_item_img">
-                                <img class="card-img rounded-0" src="img/blog/single_blog_2.png" alt="">
-                                <a href="#" class="blog_item_date">
-                                    <h3>15</h3>
-                                    <p>Jan</p>
-                                </a>
-                            </div>
-
-                            <div class="blog_details">
-                                <a class="d-inline-block" href="single-blog.html">
-                                    <h2>Google inks pact for new 35-storey office</h2>
-                                </a>
-                                <p>That dominion stars lights dominion divide years for fourth have don't stars is that
-                                    he earth it first without heaven in place seed it second morning saying.</p>
-                                <ul class="blog-info-link">
-                                    <li><a href="#"><i class="far fa-user"></i> Travel, Lifestyle</a></li>
-                                    <li><a href="#"><i class="far fa-comments"></i> 03 Comments</a></li>
-                                </ul>
-                            </div>
-                        </article>
-
-                        <article class="blog_item">
-                            <div class="blog_item_img">
-                                <img class="card-img rounded-0" src="img/blog/single_blog_3.png" alt="">
-                                <a href="#" class="blog_item_date">
-                                    <h3>15</h3>
-                                    <p>Jan</p>
-                                </a>
-                            </div>
-
-                            <div class="blog_details">
-                                <a class="d-inline-block" href="single-blog.html">
-                                    <h2>Google inks pact for new 35-storey office</h2>
-                                </a>
-                                <p>That dominion stars lights dominion divide years for fourth have don't stars is that
-                                    he earth it first without heaven in place seed it second morning saying.</p>
-                                <ul class="blog-info-link">
-                                    <li><a href="#"><i class="far fa-user"></i> Travel, Lifestyle</a></li>
-                                    <li><a href="#"><i class="far fa-comments"></i> 03 Comments</a></li>
-                                </ul>
-                            </div>
-                        </article>
-
-                        <article class="blog_item">
-                            <div class="blog_item_img">
-                                <img class="card-img rounded-0" src="img/blog/single_blog_4.png" alt="">
-                                <a href="#" class="blog_item_date">
-                                    <h3>15</h3>
-                                    <p>Jan</p>
-                                </a>
-                            </div>
-
-                            <div class="blog_details">
-                                <a class="d-inline-block" href="single-blog.html">
-                                    <h2>Google inks pact for new 35-storey office</h2>
-                                </a>
-                                <p>That dominion stars lights dominion divide years for fourth have don't stars is that
-                                    he earth it first without heaven in place seed it second morning saying.</p>
-                                <ul class="blog-info-link">
-                                    <li><a href="#"><i class="far fa-user"></i> Travel, Lifestyle</a></li>
-                                    <li><a href="#"><i class="far fa-comments"></i> 03 Comments</a></li>
-                                </ul>
-                            </div>
-                        </article>
-
-                        <article class="blog_item">
-                            <div class="blog_item_img">
-                                <img class="card-img rounded-0" src="img/blog/single_blog_5.png" alt="">
-                                <a href="#" class="blog_item_date">
-                                    <h3>15</h3>
-                                    <p>Jan</p>
-                                </a>
-                            </div>
-
-                            <div class="blog_details">
-                                <a class="d-inline-block" href="single-blog.html">
-                                    <h2>Google inks pact for new 35-storey office</h2>
-                                </a>
-                                <p>That dominion stars lights dominion divide years for fourth have don't stars is that
-                                    he earth it first without heaven in place seed it second morning saying.</p>
-                                <ul class="blog-info-link">
-                                    <li><a href="#"><i class="far fa-user"></i> Travel, Lifestyle</a></li>
-                                    <li><a href="#"><i class="far fa-comments"></i> 03 Comments</a></li>
-                                </ul>
-                            </div>
-                        </article>
-
-                        <nav class="blog-pagination justify-content-center d-flex">
-                            <ul class="pagination">
-                                <li class="page-item">
-                                    <a href="#" class="page-link" aria-label="Previous">
-                                        <i class="ti-angle-left"></i>
-                                    </a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">1</a>
-                                </li>
-                                <li class="page-item active">
-                                    <a href="#" class="page-link">2</a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link" aria-label="Next">
-                                        <i class="ti-angle-right"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="blog_right_sidebar">
-                        <aside class="single_sidebar_widget search_widget">
-                            <form action="#">
-                               <div class="form-group">
-                                  <div class="input-group mb-3">
-                                     <input type="text" class="form-control" placeholder='Search Keyword'
-                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Keyword'">
-                                     <div class="input-group-append">
-                                        <button class="btn" type="button"><i class="ti-search"></i></button>
-                                     </div>
-                                  </div>
-                               </div>
-                               <button class="button rounded-0 primary-bg text-white w-100 btn_1" type="submit">Search</button>
-                            </form>
-                         </aside>
-
-                        <aside class="single_sidebar_widget post_category_widget">
-                            <h4 class="widget_title">Category</h4>
-                            <ul class="list cat-list">
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Resaurant food</p>
-                                        <p>(37)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Travel news</p>
-                                        <p>(10)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Modern technology</p>
-                                        <p>(03)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Product</p>
-                                        <p>(11)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Inspiration</p>
-                                        <p>21</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Health Care (21)</p>
-                                        <p>09</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </aside>
-
-                        <aside class="single_sidebar_widget popular_post_widget">
-                            <h3 class="widget_title">Recent Post</h3>
-                            <div class="media post_item">
-                                <img src="img/post/post_1.png" alt="post">
-                                <div class="media-body">
-                                    <a href="single-blog.html">
-                                        <h3>From life was you fish...</h3>
-                                    </a>
-                                    <p>January 12, 2019</p>
-                                </div>
-                            </div>
-                            <div class="media post_item">
-                                <img src="img/post/post_2.png" alt="post">
-                                <div class="media-body">
-                                    <a href="single-blog.html">
-                                        <h3>The Amazing Hubble</h3>
-                                    </a>
-                                    <p>02 Hours ago</p>
-                                </div>
-                            </div>
-                            <div class="media post_item">
-                                <img src="img/post/post_3.png" alt="post">
-                                <div class="media-body">
-                                    <a href="single-blog.html">
-                                        <h3>Astronomy Or Astrology</h3>
-                                    </a>
-                                    <p>03 Hours ago</p>
-                                </div>
-                            </div>
-                            <div class="media post_item">
-                                <img src="img/post/post_4.png" alt="post">
-                                <div class="media-body">
-                                    <a href="single-blog.html">
-                                        <h3>Asteroids telescope</h3>
-                                    </a>
-                                    <p>01 Hours ago</p>
-                                </div>
-                            </div>
-                        </aside>
-                        <aside class="single_sidebar_widget tag_cloud_widget">
-                            <h4 class="widget_title">Tag Clouds</h4>
-                            <ul class="list">
-                                <li>
-                                    <a href="#">project</a>
-                                </li>
-                                <li>
-                                    <a href="#">love</a>
-                                </li>
-                                <li>
-                                    <a href="#">technology</a>
-                                </li>
-                                <li>
-                                    <a href="#">travel</a>
-                                </li>
-                                <li>
-                                    <a href="#">restaurant</a>
-                                </li>
-                                <li>
-                                    <a href="#">life style</a>
-                                </li>
-                                <li>
-                                    <a href="#">design</a>
-                                </li>
-                                <li>
-                                    <a href="#">illustration</a>
-                                </li>
-                            </ul>
-                        </aside>
-
-
-                        <aside class="single_sidebar_widget instagram_feeds">
-                            <h4 class="widget_title">Instagram Feeds</h4>
-                            <ul class="instagram_row flex-wrap">
-                                <li>
-                                    <a href="#">
-                                        <img class="img-fluid" src="img/post/post_5.png" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img class="img-fluid" src="img/post/post_6.png" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img class="img-fluid" src="img/post/post_7.png" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img class="img-fluid" src="img/post/post_8.png" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img class="img-fluid" src="img/post/post_9.png" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img class="img-fluid" src="img/post/post_10.png" alt="">
-                                    </a>
-                                </li>
-                            </ul>
-                        </aside>
-
-
-                        <aside class="single_sidebar_widget newsletter_widget">
-                            <h4 class="widget_title">Newsletter</h4>
-
-                            <form action="#">
-                                <div class="form-group">
-                                    <input type="email" class="form-control" onfocus="this.placeholder = ''"
-                                        onblur="this.placeholder = 'Enter email'" placeholder='Enter email' required>
-                                </div>
-                                <button class="button rounded-0 primary-bg text-white w-100 btn_1"
-                                    type="submit">Subscribe</button>
-                            </form>
-                        </aside>
-                    </div>
-                </div>
+            <!-- مشغل الفيديو -->
+            <div class="video-player">
+                <h4>Lesson Video</h4>
+                <video id="lessonVideo" controls>
+                    <source src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
             </div>
         </div>
-    </section>
-    <!--================Blog Area =================-->
+    </div>
 
-    <!-- footer part start-->
-    @extends('user_side.inc.footer')
-    <!-- footer part end-->
+    @include('user_side.inc.footer')
 
-    <!-- jquery plugins here-->
-    @extends('user_side.inc.jquery')
+    <script>
+        // دالة لتحميل الفيديو
+        function playVideo(videoSrc) {
+            const videoElement = document.getElementById('lessonVideo');
+            videoElement.src = videoSrc;
+            videoElement.play();
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
 </body>
 
+
+
 </html>
+

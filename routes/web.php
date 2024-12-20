@@ -10,6 +10,7 @@ use App\Http\Controllers\CourseControllerUserSide;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\CourseDetailUserSide;
 
 /*
 |--------------------------------------------------------------------------
@@ -131,3 +132,6 @@ Route::get('/contact' , function(){
 Route::get('/coursedetail' , function() {
     return view('user_side.coursesDetail.course_detail');
 });
+
+
+Route::get('/course_detail/{courseId}', [CourseDetailUserSide::class, 'show'])->name('course_detail');

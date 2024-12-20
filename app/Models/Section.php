@@ -24,6 +24,6 @@ class Section extends Model
     
 
     public function lessons(){
-        return $this->hasMany(Lesson::class, 'section_id');
+        return $this->hasMany(Lesson::class, 'section_id')->orderBy('order');
     }
 }
