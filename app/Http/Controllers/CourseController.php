@@ -16,11 +16,8 @@ class CourseController extends Controller
      */
     public function index()
     {   
-        // $courses = Course::all();
-        // return view('admin.courses.index',['courses' => $courses]);
 
-        $courses = Course::with('instructor')->get();
-        $courses = Course::with('category')->get();
+        $courses = Course::with(['instructor', 'category'])->get();
 
         return view('admin.courses.index', compact('courses'));
     }
