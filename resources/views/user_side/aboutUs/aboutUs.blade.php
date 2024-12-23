@@ -13,7 +13,9 @@
 
 <body>
     <!--::header part start::-->
-    @extends('user_side.inc.header')
+    <header class="main_menu single_page_menu">
+        @include('user_Side.inc.header')
+    </header>
     <!-- Header part end-->
 
     <!-- breadcrumb start-->

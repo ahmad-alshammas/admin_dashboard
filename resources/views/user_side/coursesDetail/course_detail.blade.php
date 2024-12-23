@@ -96,6 +96,11 @@
     margin: 0;
 }
 
+.text-muted {
+        font-size: 1rem;
+        margin-top: 10px;
+    }
+
 
         @media (max-width: 768px) {
             .course-container {
@@ -152,7 +157,7 @@
 
     <div class="container">
         <h1 class="mt-4">Course: <span style="color: #007bff;">{{ $course->title }}</span></h1>
-
+        <p class="text-muted">{{ $course->description }}</p>
         <div class="course-container">
             <!-- قائمة الدروس -->
             <div class="lessons-list">
@@ -175,10 +180,11 @@
                                         <div class="lesson-item" onclick="playVideo('{{ asset('storage/' . $lesson->content_url) }}')">
                                             <h6><i class="bi bi-play-circle"></i> {{ $lesson->title }}</h6>
                                             <p>Order: {{ $lesson->order }}</p>
-                                        </div>
+                                        </div>             
                                     @endforeach
                                 </div>
                             </div>
+                            
                         </div>
                     @endforeach
                 </div>

@@ -10,12 +10,14 @@
 
         <!-- Bootstrap CSS -->
         @extends('user_side.inc.bootstrap')
+        
 </head>
 
 <body>
     <!--::header part start::-->
-
+    <header class="main_menu single_page_menu">
     @include('user_Side.inc.header')
+    </header>
     <!-- Header part end-->
 
     <!-- breadcrumb start-->
@@ -39,42 +41,38 @@
     <section class="special_cource padding_top">
         <div class="container">
             <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search for courses..." onkeyup="filterCourses()">
+                </div>
                 <div class="col-xl-5">
                     <div class="section_tittle text-center">
-                        <p>popular courses</p>
+                        
                         <h2>Courses</h2>
+
+
                     </div>
                 </div>
             </div>
-            <div class="row">
-                @foreach($courses as $course)
-                <div class="col-sm-6 col-lg-4">
-                    <div class="single_special_cource">
-                        <!-- صورة الدورة -->
-                        <img src="{{ asset($course->image ?? 'default-image.png') }}" class="special_img" alt="{{ $course->title }}">
+            <div class="row" id="coursesContainer">
+                <p id="noResultsMessage" style="display: none; text-align: center; color: red; font-size: xx-large;">No courses found.</p>
 
+                @foreach($courses as $course)
+                <div class="col-sm-6 col-lg-4 course-card" data-title="{{ strtolower($course->title) }}">
+                    <div class="single_special_cource">
+                        <img src="{{ asset($course->image ?? 'default-image.png') }}" class="special_img" alt="{{ $course->title }}">
                         <div class="special_cource_text">
-                            <!-- اسم الفئة -->
                             <a href="#" class="btn_4">{{ $course->category->name ?? 'No Category' }}</a>
-            
-                            <!-- السعر -->
                             <h4>${{ $course->price }}</h4>
-            
-                            <!-- عنوان الدورة -->
                             <a href="{{ route('course_detail', $course->id) }}">
                                 <h3>{{ $course->title }}</h3>
                             </a>
-            
-                            <!-- الوصف -->
-                            <p>{{ $course->description }}</p>
-            
                             <div class="author_info">
-                                
-                                    <div class="author_info_text">
-                                        <!-- اسم المدرب -->
-                                        <p>Conduct by:</p>
-                                        <h5><a href="#">{{ $course->instructor->name ?? 'Unknown' }}</a></h5>
-                                    
+                                <div class="author_info_text">
+                                    <p>Conduct by:</p>
+                                    <h5 class="d-inline"><a href="#">{{ $course->instructor->name ?? 'Unknown' }}</a></h5>
+                                    <a href="#" class="text-danger d-inline" id="like-{{ $course->id }}" onclick="addToFavorites({{ $course->id }})">
+                                        <i class="fa-solid fa-heart fa-lg" id="heart-icon-{{ $course->id }}" style="color: gray; transition: color 0.3s;"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -82,6 +80,7 @@
                 </div>
                 @endforeach
             </div>
+            
             
         </div>
     </section>
@@ -210,6 +209,41 @@
 
     <!-- jquery plugins here-->
     @extends('user_side.inc.jquery')
+
+    <script>
+        function filterCourses() {
+    const searchInput = document.getElementById('searchInput').value.toLowerCase();
+    const courses = document.querySelectorAll('.course-card');
+    let hasResults = false;
+
+    courses.forEach(course => {
+        const title = course.getAttribute('data-title');
+        if (title.includes(searchInput)) {
+            course.style.display = 'block';
+            hasResults = true;
+        } else {
+            course.style.display = 'none';
+        }
+    });
+
+    // عرض أو إخفاء رسالة "لا توجد نتائج"
+    const noResultsMessage = document.getElementById('noResultsMessage');
+    noResultsMessage.style.display = hasResults ? 'none' : 'block';
+}
+
+    </script>
+    
+
+    <script>
+        function addToFavorites(courseId) {
+            // تغيير اللون إلى الأحمر
+            var heartIcon = document.getElementById('heart-icon-' + courseId);
+            heartIcon.style.color = 'red';
+            
+            // إرسال المستخدم إلى صفحة المفضلة
+            window.location.href = "/favorites";  // تأكد من أن الرابط صحيح
+        }
+    </script>
 </body>
 
 </html>

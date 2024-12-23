@@ -14,7 +14,9 @@
 
 <body>
     <!--::header part start::-->
+    <header class="main_menu home_menu">
     @include('user_side.inc.header')
+    </header>
     <!-- Header part end-->
 
     
