@@ -153,7 +153,9 @@
 </head>
 
 <body>
-    @include('user_side.inc.header')
+    <header class="main_menu ">
+        @include('user_Side.inc.header')
+        </header>
 
     <div class="container">
         <h1 class="mt-4">Course: <span style="color: #007bff;">{{ $course->title }}</span></h1>
