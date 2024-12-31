@@ -11,6 +11,9 @@ use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\CourseDetailUserSide;
+use App\Http\Middleware\CheckRole;
+use App\Http\Controllers\FavoriteController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -24,15 +27,17 @@ use App\Http\Controllers\CourseDetailUserSide;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('user_side.home.home');
 });
 
 // Route::get('/home', function () {
 //     return view('admin.home');
 // });
 
+
+
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('user_side.home.home');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -123,15 +128,39 @@ Route::get('/aboutus' , function(){
     return view('user_side.aboutUs.aboutUs');
 });
 
-
 Route::get('/contact' , function(){
     return view('user_side.contact.contact');
 });
 
 
-Route::get('/coursedetail' , function() {
-    return view('user_side.coursesDetail.course_detail');
+
+//, 'check.role:admin'
+
+//تشييك اذا اليوزر لوج ان 
+Route::middleware(['auth' ])->group(function(){
+    Route::get('/coursedetail' , function() {
+        return view('user_side.coursesDetail.course_detail');
+    });
+    
+    Route::get('/course_detail/{courseId}', [CourseDetailUserSide::class, 'show'])->name('course_detail');
+
+    
 });
 
+Route::middleware('auth')->group(function () {
+    Route::post('/add-to-favorites', [FavoriteController::class, 'addToFavorites']);
+    Route::post('/remove-from-favorites', [FavoriteController::class, 'removeFromFavorites']);
+});
 
-Route::get('/course_detail/{courseId}', [CourseDetailUserSide::class, 'show'])->name('course_detail');
+// Route::middleware('auth')->group(function () {
+//     Route::post('/add-to-favorites/{courseId}', [FavoriteController::class, 'addToFavorites'])->name('add.to.favorite');
+//     Route::get('/favorites', [FavoriteController::class, 'showFavorites'])->name('favorites');
+//     Route::post('/remove-from-favorites', [FavoriteController::class, 'removeFromFavorites'])->name('remove.from.favorite');
+// });
+
+Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+
+Route::post('/favorites/{courseId}', [FavoriteController::class, 'addToFavorites'])->name('favorites.add');
+
+Route::post('/remove-from-favorites', [FavoriteController::class, 'removeFromFavorites'])->name('favorites.remove');
+

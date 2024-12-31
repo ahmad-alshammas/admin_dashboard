@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Favorites</title>
+    @extends('user_side.inc.bootstrap')
+</head>
+<body>
+    <header class="main_menu single_page_menu">
+        @include('user_side.inc.header')
+    </header>
+
+    <section class="breadcrumb breadcrumb_bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb_iner text-center">
+                        <div class="breadcrumb_iner_item">
+                            <h2>Your Favorite Courses</h2>
+                            <p>Home<span>/</span>Favorites</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="special_cource padding_top">
+        <div class="container">
+            @if($favoriteCourses->isEmpty())
+                <p style="text-align: center; color: red;">No favorite courses found.</p>
+            @else
+                <!-- Filters -->
+                <div class="row justify-content-center my-4">
+                    <div class="col-md-12 text-center">
+                        <h5>Select Category</h5>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="categoryFilter" id="allCategories" value="all" checked onclick="filterByCategory('all')">
+                            <label class="form-check-label" for="allCategories">All</label>
+                        </div>
+                        @foreach($categories as $category)
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="categoryFilter" id="category-{{ $category->id }}" value="{{ strtolower($category->name) }}" onclick="filterByCategory('{{ strtolower($category->name) }}')">
+                                <label class="form-check-label" for="category-{{ $category->id }}">{{ $category->name }}</label>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                <!-- Search -->
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <input type="text" id="searchInput" class="form-control" placeholder="Search for courses..." onkeyup="filterCourses()">
+                    </div>
+                </div>
+
+                <!-- Favorite Courses -->
+                <div class="row" id="coursesContainer">
+                    <p id="noResultsMessage" style="display: none; text-align: center; color: red; font-size: xx-large;">No courses found.</p>
+                    @foreach($favoriteCourses as $course)
+                        <div class="col-sm-6 col-lg-4 course-card" data-title="{{ strtolower($course->title) }}" data-category="{{ strtolower($course->category->name ?? 'no category') }}">
+                            <div class="single_special_cource">
+                                <img src="{{ asset($course->image ?? 'default-image.png') }}" class="special_img" alt="{{ $course->title }}">
+                                <div class="special_cource_text">
+                                    <a href="javascript:void(0);" class="btn_4 category-btn" onclick="filterByCategory('{{ strtolower($course->category->name ?? 'no category') }}')">
+                                        {{ $course->category->name ?? 'No Category' }}
+                                    </a>
+                                    <h4>${{ $course->price }}</h4>
+                                    <a href="{{ route('course_detail', $course->id) }}">
+                                        <h3>{{ $course->title }}</h3>
+                                    </a>
+                                    <div class="author_info">
+                                        <div class="author_info_text">
+                                            <p>Conduct by:</p>
+                                            <h5 class="d-inline"><a href="#">{{ $course->instructor->name ?? 'Unknown' }}</a></h5>
+                                        </div>
+                                    </div>
+                                    <div class="favorite-icon">
+                                        <i class="fas fa-heart text-danger" onclick="removeFromFavorites({{ $course->id }})" id="heart-icon-{{ $course->id }}"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+        </div>
+    </section>
+
+    @include('user_side.inc.footer')
+
+    <script>
+        function filterByCategory(category) {
+            const courses = document.querySelectorAll('.course-card');
+            let hasResults = false;
+
+            courses.forEach(course => {
+                const courseCategory = course.getAttribute('data-category');
+                if (category === 'all' || courseCategory === category) {
+                    course.style.display = 'block';
+                    hasResults = true;
+                } else {
+                    course.style.display = 'none';
+                }
+            });
+
+            document.getElementById('noResultsMessage').style.display = hasResults ? 'none' : 'block';
+        }
+
+        function filterCourses() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const courses = document.querySelectorAll('.course-card');
+            let hasResults = false;
+
+            courses.forEach(course => {
+                const title = course.getAttribute('data-title');
+                if (title.includes(searchInput)) {
+                    course.style.display = 'block';
+                    hasResults = true;
+                } else {
+                    course.style.display = 'none';
+                }
+            });
+
+            document.getElementById('noResultsMessage').style.display = hasResults ? 'none' : 'block';
+        }
+
+        function removeFromFavorites(courseId) {
+    fetch('/remove-from-favorites', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        },
+        body: JSON.stringify({ course_id: courseId }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message === 'Course removed from favorites') {
+            alert('Course removed successfully');
+            // إخفاء الكورس المحذوف من المفضلة
+            const courseCard = document.querySelector(`.course-card[data-course-id="${courseId}"]`);
+            if (courseCard) courseCard.remove();
+        } else {
+            alert('Failed to remove course from favorites');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+    </script>
+</body>
+</html>

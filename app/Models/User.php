@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
 
 class User extends Authenticatable
 {
@@ -38,6 +40,19 @@ class User extends Authenticatable
     public function course(){
         return $this->belongsToMany(Course::class, 'enrollments');
     }
+
+    public function favorites()
+    {
+        return $this->belongsToMany(Course::class, 'course_user');
+    }
+
+    public function favoriteCourses(): BelongsToMany
+    {
+        return $this->belongsToMany(Course::class, 'favorites', 'user_id', 'course_id');
+    }
+
+
+    
 
     /**
      * The attributes that should be hidden for serialization.

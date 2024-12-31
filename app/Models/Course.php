@@ -39,4 +39,33 @@ class Course extends Model
     public function students(){
         return $this->belongsToMany(User::class , 'enrollments');
     }
+
+// في نموذج Course
+public function favoritedBy()
+{
+    return $this->belongsToMany(User::class, 'favorites');
+}
+
+public function isFavoritedBy(User $user)
+{
+    return $this->favorites()->where('user_id', $user->id)->exists();
+}
+
+public function favorites()
+{
+    return $this->belongsToMany(User::class, 'favorites');
+}
+
+public function usersFavorited()
+{
+    return $this->belongsToMany(User::class, 'course_user');
+}
+
+public function usersWhoFavorited()
+{
+    return $this->belongsToMany(User::class, 'favorites');
+}
+
+
+
 }
