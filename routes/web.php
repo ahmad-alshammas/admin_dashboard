@@ -152,11 +152,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/remove-from-favorites', [FavoriteController::class, 'removeFromFavorites']);
 });
 
-// Route::middleware('auth')->group(function () {
-//     Route::post('/add-to-favorites/{courseId}', [FavoriteController::class, 'addToFavorites'])->name('add.to.favorite');
-//     Route::get('/favorites', [FavoriteController::class, 'showFavorites'])->name('favorites');
-//     Route::post('/remove-from-favorites', [FavoriteController::class, 'removeFromFavorites'])->name('remove.from.favorite');
-// });
 
 Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
 

@@ -163,7 +163,7 @@
                 title: 'Error!',
                 text: 'Failed to remove the course from favorites.',
                 icon: 'error',
-                confirmButtonText: 'Try Again'
+                confirmButtonText: 'Try Again'  
             });
         }
     })

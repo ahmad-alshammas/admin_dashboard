@@ -1,4 +1,3 @@
-<!-- في صفحة الكورسات -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -9,6 +8,7 @@
     <title>Etrain</title>
     <link rel="icon" href="img/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <!-- Bootstrap CSS -->
     @extends('user_side.inc.bootstrap')
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -84,17 +84,15 @@
                             </div>
 
                             <!-- أيقونة القلب لإضافة الكورس إلى المفضلة -->
-                            <!-- أيقونة القلب لإضافة الكورس إلى المفضلة -->
-                        <div class="favorite-icon">
-                            @if(auth()->check())
-                                <i class="fas fa-heart @if($course->isFavoritedBy(auth()->user())) text-danger @endif" 
-                                onclick="addToFavorites({{ $course->id }})" 
-                                id="heart-icon-{{ $course->id }}"></i>
-                            @else
-                                <i class="fas fa-heart" onclick="alert('Please log in first.')"></i>
-                            @endif
-                        </div>
-
+                            <div class="favorite-icon">
+                                @if(auth()->check())
+                                    <i class="fas fa-heart @if($course->isFavoritedBy(auth()->user())) text-danger @endif" 
+                                    onclick="toggleFavorite({{ $course->id }}, @json($course->isFavoritedBy(auth()->user())))" 
+                                    id="heart-icon-{{ $course->id }}"></i>
+                                @else
+                                    <i class="fas fa-heart" onclick="alert('Please log in first.')"></i>
+                                @endif
+                            </div>
 
                         </div>
                     </div>
@@ -156,30 +154,65 @@
             noResultsMessage.style.display = hasResults ? 'none' : 'block';
         }
 
-        function addToFavorites(courseId) {
-    fetch(`/favorites/${courseId}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
-        body: JSON.stringify({ course_id: courseId })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // تغيير لون الأيقونة إلى الأحمر عند النجاح
-            var heartIcon = document.getElementById('heart-icon-' + courseId);
-            heartIcon.classList.add('text-danger'); // تغيير اللون
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
+        function toggleFavorite(courseId, isFavorited) {
+            // تحديد إذا كان الكورس مضافًا بالفعل
+            const method = isFavorited ? 'DELETE' : 'POST'; // إذا كان مضافًا، نستخدم DELETE لإزالته
+            const url = isFavorited ? `/remove-from-favorites/${courseId}` : `/favorites/${courseId}`; // تغيير الرابط بناءً على الحالة
+
+            // استدعاء الـ API بناءً على العملية المطلوبة
+            fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ course_id: courseId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const heartIcon = document.getElementById('heart-icon-' + courseId);
+
+                if (data.success) {
+                    // تغيير لون الأيقونة بناءً على العملية (إضافة أو إزالة)
+                    if (isFavorited) {
+                        heartIcon.classList.remove('text-danger'); // إزالة اللون الأحمر إذا تم الإزالة
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Course removed from favorites.',
+                            showConfirmButton: true,
+                            timer: 2500
+                        });
+                    } else {
+                        heartIcon.classList.add('text-danger'); // إضافة اللون الأحمر إذا تم الإضافة
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Course added to favorites.',
+                            showConfirmButton: true,
+                            timer: 2500
+                        });
+                    }
+                } else {
+                    // التعامل مع الحالة في حال فشل العملية
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: isFavorited ? 'Failed to remove the course from favorites.' : 'Failed to add the course to favorites.',
+                        showConfirmButton: true
+                    });
+                }
+            })
+            .catch(error => {
+    console.error('Error:', error); // طباعة الخطأ في الـ console للمساعدة في الفحص
+    Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: 'An unexpected error occurred.',
+        showConfirmButton: true
     });
-}
-
-
-
+});
+        }
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
