@@ -6,6 +6,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Favorites</title>
     @extends('user_side.inc.bootstrap')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 </head>
 <body>
     <header class="main_menu single_page_menu">
@@ -60,7 +62,7 @@
                 <div class="row" id="coursesContainer">
                     <p id="noResultsMessage" style="display: none; text-align: center; color: red; font-size: xx-large;">No courses found.</p>
                     @foreach($favoriteCourses as $course)
-                        <div class="col-sm-6 col-lg-4 course-card" data-title="{{ strtolower($course->title) }}" data-category="{{ strtolower($course->category->name ?? 'no category') }}">
+                        <div class="col-sm-6 col-lg-4 course-card" data-course-id="{{ $course->id }}" data-title="{{ strtolower($course->title) }}" data-category="{{ strtolower($course->category->name ?? 'no category') }}">
                             <div class="single_special_cource">
                                 <img src="{{ asset($course->image ?? 'default-image.png') }}" class="special_img" alt="{{ $course->title }}">
                                 <div class="special_cource_text">
@@ -85,6 +87,7 @@
                         </div>
                     @endforeach
                 </div>
+                
             @endif
         </div>
     </section>
@@ -139,19 +142,44 @@
     .then(response => response.json())
     .then(data => {
         if (data.message === 'Course removed from favorites') {
-            alert('Course removed successfully');
-            // إخفاء الكورس المحذوف من المفضلة
-            const courseCard = document.querySelector(`.course-card[data-course-id="${courseId}"]`);
-            if (courseCard) courseCard.remove();
+            Swal.fire({
+                title: 'Removed!',
+                text: 'The course has been removed from your favorites.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                // إخفاء الكورس المحذوف من صفحة المفضلة
+                const courseCard = document.querySelector(`.course-card[data-course-id="${courseId}"]`);
+                if (courseCard) courseCard.remove();
+
+                // التحقق إذا كانت القائمة فارغة
+                const coursesContainer = document.getElementById('coursesContainer');
+                if (!coursesContainer.querySelector('.course-card')) {
+                    document.getElementById('noResultsMessage').style.display = 'block';
+                }
+            });
         } else {
-            alert('Failed to remove course from favorites');
+            Swal.fire({
+                title: 'Error!',
+                text: 'Failed to remove the course from favorites.',
+                icon: 'error',
+                confirmButtonText: 'Try Again'
+            });
         }
     })
     .catch(error => {
         console.error('Error:', error);
+        Swal.fire({
+            title: 'Error!',
+            text: 'An unexpected error occurred.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
     });
 }
 
+
     </script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
