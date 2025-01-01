@@ -13,6 +13,8 @@ use App\Http\Controllers\SectionController;
 use App\Http\Controllers\CourseDetailUserSide;
 use App\Http\Middleware\CheckRole;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\AdminCommentController;
 
 
 /*
@@ -159,3 +161,7 @@ Route::post('/favorites/{courseId}', [FavoriteController::class, 'addToFavorites
 
 Route::post('/remove-from-favorites', [FavoriteController::class, 'removeFromFavorites'])->name('favorites.remove');
 
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
+Route::get('/admin/comments', [AdminCommentController::class, 'index'])->name('comments.index');
+Route::delete('/admin/comments/{id}', [AdminCommentController::class, 'destroy'])->name('comments.destroy');

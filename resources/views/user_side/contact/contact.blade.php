@@ -13,7 +13,9 @@
 
 <body>
     <!--::header part start::-->
-    @extends('user_side.inc.header')
+    <header class="main_menu single_page_menu">
+      @include('user_side.inc.header')
+    </header>
     <!-- Header part end-->
 
     <!-- breadcrumb start-->
@@ -44,7 +46,8 @@
           <h2 class="contact-title">Get in Touch</h2>
         </div>
         <div class="col-lg-8">
-          <form class="form-contact contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+          <form class="form-contact contact_form" action="{{ route('contact.store') }}" method="post" id="contactForm" novalidate="novalidate">
+            @csrf
             <div class="row">
               <div class="col-12">
                 <div class="form-group">
@@ -77,21 +80,21 @@
           <div class="media contact-info">
             <span class="contact-info__icon"><i class="ti-home"></i></span>
             <div class="media-body">
-              <h3>Buttonwood, California.</h3>
-              <p>Rosemead, CA 91770</p>
+              <h3>Jordan, Alzarqa.</h3>
+              <p>street: Tarek bin zyad</p>
             </div>
           </div>
           <div class="media contact-info">
             <span class="contact-info__icon"><i class="ti-tablet"></i></span>
             <div class="media-body">
-              <h3>00 (440) 9865 562</h3>
-              <p>Mon to Fri 9am to 6pm</p>
+              <h3><a href="tel:+962788076258" style="color:black">0788076258</a></h3>
+              <p>Sunday to Thursday 9am to 6pm</p>
             </div>
           </div>
           <div class="media contact-info">
             <span class="contact-info__icon"><i class="ti-email"></i></span>
             <div class="media-body">
-              <h3>support@colorlib.com</h3>
+              <h3><a href="mailto:ahmad.a.alshammas@gmail.com" style="color:black">ahmad.a.alshammas@gmail.com</a></h3>
               <p>Send us your query anytime!</p>
             </div>
           </div>

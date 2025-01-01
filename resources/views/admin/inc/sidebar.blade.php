@@ -51,9 +51,9 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="{{route('enrollments.index')}}">
+                <a class="nav-link" href="{{route('comments.index')}}">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Enrollments</span></a>
+                    <span>Comment</span></a>
             </li>
 
             {{-- <li class="nav-item">
