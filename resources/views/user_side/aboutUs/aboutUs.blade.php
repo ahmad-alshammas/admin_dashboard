@@ -88,7 +88,7 @@
             <div class="row align-items-sm-center align-items-lg-stretch">
                 <div class="col-md-7 col-lg-7">
                     <div class="learning_img">
-                        <img src="img/learning_img.png" alt="">
+                        <img src="img/learning_img.svg" alt="">
                     </div>
                 </div>
                 <div class="col-md-5 col-lg-5">
