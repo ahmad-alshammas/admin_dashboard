@@ -24,9 +24,14 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ '/courses' }}">Courses</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ '/favorites' }}">Favourite</a>
-                        </li>
+
+                        <!-- إخفاء رابط المفضلة إذا لم يكن المستخدم مسجل الدخول -->
+                        @if(Auth::check())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ '/favorites' }}">Favourite</a>
+                            </li>
+                        @endif
+
                         <li class="nav-item">
                             <a class="nav-link" href="{{ '/contact' }}">Contact</a>
                         </li>

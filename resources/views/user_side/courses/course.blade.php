@@ -115,7 +115,7 @@
                                 onclick="toggleFavorite({{ $course->id }}, @json($course->isFavoritedBy(auth()->user())))" 
                                 id="heart-icon-{{ $course->id }}"></i>
                             @else
-                                <i class="fas fa-heart" onclick="alert('Please log in first.')"></i>
+                                <i class="fas fa-heart" onclick="redirectToLogin()"></i>
                             @endif
                         </div>
 
@@ -193,7 +193,18 @@
             noResultsMessage.style.display = hasResults ? 'none' : 'block';
         }
 
+        function redirectToLogin() {
+            // توجيه المستخدم إلى صفحة تسجيل الدخول
+            window.location.href = "{{ route('login') }}";
+        }
+
         function toggleFavorite(courseId, isFavorited) {
+            // إذا لم يكن المستخدم مسجل الدخول، يتم توجيهه إلى صفحة تسجيل الدخول
+            if (!@json(auth()->check())) {
+                redirectToLogin();
+                return;
+            }
+
             // تحديد إذا كان الكورس مضافًا بالفعل
             const method = isFavorited ? 'DELETE' : 'POST'; // إذا كان مضافًا، نستخدم DELETE لإزالته
             const url = isFavorited ? `/remove-from-favorites/${courseId}` : `/favorites/${courseId}`; // تغيير الرابط بناءً على الحالة
