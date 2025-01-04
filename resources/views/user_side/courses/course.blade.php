@@ -12,6 +12,28 @@
     <!-- Bootstrap CSS -->
     @extends('user_side.inc.bootstrap')
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <style>
+        .category-btn {
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .category-btn:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        .category-btn.active {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        .category-btn.active:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
 </head>
 <body>
     <!--::header part start::-->
@@ -106,28 +128,7 @@
 
     @extends('user_side.inc.jquery')
 
-    <style>
-        .category-btn {
-            margin: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .category-btn:hover {
-            background-color: #0056b3;
-            color: white;
-            transform: scale(1.05);
-        }
-
-        .category-btn.active {
-            background-color: #0056b3;
-            color: white;
-        }
-
-        .category-btn.active:hover {
-            background-color: #0056b3;
-        }
-    </style>
-
+    
     <script>
         function filterByCategory(category) {
             const courses = document.querySelectorAll('.course-card');

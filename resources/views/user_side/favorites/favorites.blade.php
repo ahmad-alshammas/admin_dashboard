@@ -8,6 +8,26 @@
     @extends('user_side.inc.bootstrap')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
+    <style>
+        .category-btn {
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .category-btn:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        .category-btn.active {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        .category-btn.active:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <header class="main_menu single_page_menu">
@@ -37,17 +57,15 @@
                 <!-- Filters -->
                 <div class="row justify-content-center my-4">
                     <div class="col-md-12 text-center">
-                        <h5>Select Category</h5>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="categoryFilter" id="allCategories" value="all" checked onclick="filterByCategory('all')">
-                            <label class="form-check-label" for="allCategories">All</label>
+                        <h5 class="mb-4">Select Category</h5>
+                        <div class="d-flex flex-wrap justify-content-center gap-2">
+                            <button class="btn btn-outline-primary category-btn active" data-category="all" onclick="filterByCategory('all')">All</button>
+                            @foreach($categories as $category)
+                                <button class="btn btn-outline-primary category-btn" data-category="{{ strtolower($category->name) }}" onclick="filterByCategory('{{ strtolower($category->name) }}')">
+                                    {{ $category->name }}
+                                </button>
+                            @endforeach
                         </div>
-                        @foreach($categories as $category)
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="categoryFilter" id="category-{{ $category->id }}" value="{{ strtolower($category->name) }}" onclick="filterByCategory('{{ strtolower($category->name) }}')">
-                                <label class="form-check-label" for="category-{{ $category->id }}">{{ $category->name }}</label>
-                            </div>
-                        @endforeach
                     </div>
                 </div>
 
@@ -59,14 +77,14 @@
                 </div>
 
                 <!-- Favorite Courses -->
-                <div class="row" id="coursesContainer">
+                <div class="row mt-3" id="coursesContainer">
                     <p id="noResultsMessage" style="display: none; text-align: center; color: red; font-size: xx-large;">No courses found.</p>
                     @foreach($favoriteCourses as $course)
                         <div class="col-sm-6 col-lg-4 course-card" data-course-id="{{ $course->id }}" data-title="{{ strtolower($course->title) }}" data-category="{{ strtolower($course->category->name ?? 'no category') }}">
                             <div class="single_special_cource">
                                 <img src="{{ asset($course->image ?? 'default-image.png') }}" class="special_img" alt="{{ $course->title }}">
                                 <div class="special_cource_text">
-                                    <a href="javascript:void(0);" class="btn_4 category-btn" onclick="filterByCategory('{{ strtolower($course->category->name ?? 'no category') }}')">
+                                    <a href="javascript:void(0);" class="btn_4" onclick="filterByCategory('{{ strtolower($course->category->name ?? 'no category') }}')">
                                         {{ $course->category->name ?? 'No Category' }}
                                     </a>
                                     <h4>${{ $course->price }}</h4>
@@ -87,7 +105,6 @@
                         </div>
                     @endforeach
                 </div>
-                
             @endif
         </div>
     </section>
@@ -99,6 +116,17 @@
             const courses = document.querySelectorAll('.course-card');
             let hasResults = false;
 
+            // تحديث حالة الأزرار
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            categoryButtons.forEach(button => {
+                if (button.getAttribute('data-category') === category) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+
+            // تصفية الكورسات بناءً على الفئة
             courses.forEach(course => {
                 const courseCategory = course.getAttribute('data-category');
                 if (category === 'all' || courseCategory === category) {
@@ -109,7 +137,9 @@
                 }
             });
 
-            document.getElementById('noResultsMessage').style.display = hasResults ? 'none' : 'block';
+            // عرض أو إخفاء رسالة "لا توجد نتائج"
+            const noResultsMessage = document.getElementById('noResultsMessage');
+            noResultsMessage.style.display = hasResults ? 'none' : 'block';
         }
 
         function filterCourses() {
@@ -127,59 +157,60 @@
                 }
             });
 
-            document.getElementById('noResultsMessage').style.display = hasResults ? 'none' : 'block';
+            // عرض أو إخفاء رسالة "لا توجد نتائج"
+            const noResultsMessage = document.getElementById('noResultsMessage');
+            noResultsMessage.style.display = hasResults ? 'none' : 'block';
         }
 
         function removeFromFavorites(courseId) {
-    fetch('/remove-from-favorites', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        },
-        body: JSON.stringify({ course_id: courseId }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.message === 'Course removed from favorites') {
-            Swal.fire({
-                title: 'Removed!',
-                text: 'The course has been removed from your favorites.',
-                icon: 'success',
-                confirmButtonText: 'OK'
-            }).then(() => {
-                // إخفاء الكورس المحذوف من صفحة المفضلة
-                const courseCard = document.querySelector(`.course-card[data-course-id="${courseId}"]`);
-                if (courseCard) courseCard.remove();
+            fetch('/remove-from-favorites', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                },
+                body: JSON.stringify({ course_id: courseId }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === 'Course removed from favorites') {
+                    Swal.fire({
+                        title: 'Removed!',
+                        text: 'The course has been removed from your favorites.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        // إخفاء الكورس المحذوف من صفحة المفضلة
+                        const courseCard = document.querySelector(`.course-card[data-course-id="${courseId}"]`);
+                        if (courseCard) courseCard.remove();
 
-                // التحقق إذا كانت القائمة فارغة
-                const coursesContainer = document.getElementById('coursesContainer');
-                if (!coursesContainer.querySelector('.course-card')) {
-                    document.getElementById('noResultsMessage').style.display = 'block';
+                        // التحقق إذا كانت القائمة فارغة
+                        const coursesContainer = document.getElementById('coursesContainer');
+                        if (!coursesContainer.querySelector('.course-card')) {
+                            document.getElementById('noResultsMessage').style.display = 'block';
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Failed to remove the course from favorites.',
+                        icon: 'error',
+                        confirmButtonText: 'Try Again'
+                    });
                 }
-            });
-        } else {
-            Swal.fire({
-                title: 'Error!',
-                text: 'Failed to remove the course from favorites.',
-                icon: 'error',
-                confirmButtonText: 'Try Again'  
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'An unexpected error occurred.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
             });
         }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        Swal.fire({
-            title: 'Error!',
-            text: 'An unexpected error occurred.',
-            icon: 'error',
-            confirmButtonText: 'OK'
-        });
-    });
-}
-
-
     </script>
-     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
