@@ -165,3 +165,10 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
 
 Route::get('/admin/comments', [AdminCommentController::class, 'index'])->name('comments.index');
 Route::delete('/admin/comments/{id}', [AdminCommentController::class, 'destroy'])->name('comments.destroy');
+
+
+// Route::get('/profile' , function(){
+//     return view('user_side.profile.profile');
+// });
+
+Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');

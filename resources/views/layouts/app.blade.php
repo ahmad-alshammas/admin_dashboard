@@ -10,7 +10,7 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
+        @extends('user_side.inc.bootstrap')
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -18,7 +18,9 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            @include('layouts.navigation')
+            <header class="main_menu single_page_menu">
+                @include('user_side.inc.header')
+            </header>
 
             <!-- Page Heading -->
             @if (isset($header))
@@ -34,5 +36,7 @@
                 {{ $slot }}
             </main>
         </div>
+
+        @extends('user_side.inc.jquery')
     </body>
 </html>
