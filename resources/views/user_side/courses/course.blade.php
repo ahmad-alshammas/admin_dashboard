@@ -32,8 +32,29 @@
         .category-btn.active:hover {
             background-color: #0056b3;
         }
-    </style>
 
+        /* تعديلات جديدة لوضع أيقونة القلب على اليمين */
+        .single_special_cource {
+            position: relative; /* لجعل الأيقونة تتبع هذا العنصر */
+        }
+
+        .favorite-icon {
+            position: absolute;
+            top: 10px; /* المسافة من الأعلى */
+            right: 10px; /* المسافة من اليمين */
+            cursor: pointer;
+            font-size: 24px; /* حجم الأيقونة */
+            z-index: 1; /* للتأكد من ظهور الأيقونة فوق الصورة */
+        }
+
+        .favorite-icon .fas {
+            color: #ccc; /* لون القلب الافتراضي */
+        }
+
+        .favorite-icon .fas.text-danger {
+            color: #ff0000; /* لون القلب عند التفضيل */
+        }
+    </style>
 </head>
 <body>
     <!--::header part start::-->
@@ -87,33 +108,26 @@
                 @foreach($courses as $course)
                 <div class="col-sm-6 col-lg-4 course-card" data-title="{{ strtolower($course->title) }}" data-category="{{ strtolower($course->category->name ?? 'no category') }}">
                     <div class="single_special_cource">
+                        <!-- أيقونة القلب على يمين الكورس -->
+                        <div class="favorite-icon">
+                            @if(auth()->check())
+                                <i class="fas fa-heart @if($course->isFavoritedBy(auth()->user())) text-danger @endif" 
+                                onclick="toggleFavorite({{ $course->id }}, @json($course->isFavoritedBy(auth()->user())))" 
+                                id="heart-icon-{{ $course->id }}"></i>
+                            @else
+                                <i class="fas fa-heart" onclick="alert('Please log in first.')"></i>
+                            @endif
+                        </div>
+
                         <img src="{{ asset($course->image ?? 'default-image.png') }}" class="special_img" alt="{{ $course->title }}">
                         <div class="special_cource_text">
-                            <a href="javascript:void(0);" class="btn_4 " onclick="filterByCategory('{{ strtolower($course->category->name ?? 'no category') }}')">
+                            <a href="javascript:void(0);" class="btn_4" onclick="filterByCategory('{{ strtolower($course->category->name ?? 'no category') }}')">
                                 {{ $course->category->name ?? 'No Category' }}
                             </a>
                             <h4>${{ $course->price }}</h4>
                             <a href="{{ route('course_detail', $course->id) }}">
                                 <h3>{{ $course->title }}</h3>
                             </a>
-                            <div class="author_info">
-                                <div class="author_info_text">
-                                    <p>Conduct by:</p>
-                                    <h5 class="d-inline"><a href="#">{{ $course->instructor->name ?? 'Unknown' }}</a></h5>
-                                </div>
-                            </div>
-
-                            <!-- أيقونة القلب لإضافة الكورس إلى المفضلة -->
-                            <div class="favorite-icon">
-                                @if(auth()->check())
-                                    <i class="fas fa-heart @if($course->isFavoritedBy(auth()->user())) text-danger @endif" 
-                                    onclick="toggleFavorite({{ $course->id }}, @json($course->isFavoritedBy(auth()->user())))" 
-                                    id="heart-icon-{{ $course->id }}"></i>
-                                @else
-                                    <i class="fas fa-heart" onclick="alert('Please log in first.')"></i>
-                                @endif
-                            </div>
-
                         </div>
                     </div>
                 </div>
@@ -128,7 +142,6 @@
 
     @extends('user_side.inc.jquery')
 
-    
     <script>
         function filterByCategory(category) {
             const courses = document.querySelectorAll('.course-card');
