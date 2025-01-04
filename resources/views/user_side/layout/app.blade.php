@@ -43,7 +43,7 @@
     <!-- banner part start-->
 
     <!-- feature_part start-->
-    <div class="container text-center">  
+    <div class="container text-center mt-5">  
         <h2>Why Choose Azzam Academy?</h2>
         <p>Set have great you male grass yielding an yielding first their you're
             have called the abundantly fruit were man </p>
@@ -109,10 +109,11 @@
                         <a href="#" class="btn_1">Read More</a>
                     </div>
 
-                    <div class="col-md-7 col-lg-7">
-                        <div class="learning_img">
-                            <img src="{{ asset('user_side/img/learning_img.svg') }}" alt="">
-                        </div>
+                    
+                </div>
+                <div class="col-md-7 col-lg-7">
+                    <div class="learning_img">
+                        <img src="{{ asset('user_side/img/learning_img.svg') }}" alt="">
                     </div>
                 </div>
             </div>
