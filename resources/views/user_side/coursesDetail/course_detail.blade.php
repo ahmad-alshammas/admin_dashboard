@@ -65,7 +65,7 @@
 
         .card-header button {
     font-size: 1.1rem;
-    color: #007bff;
+    color: #0056b3;
     text-decoration: none;
 }
 
@@ -158,7 +158,7 @@
         </header>
 
     <div class="container">
-        <h1 class="mt-4">Course: <span style="color: #007bff;">{{ $course->title }}</span></h1>
+        <h1 class="mt-4">Course: <span style="color: #0056b3;">{{ $course->title }}</span></h1>
         <p class="text-muted">{{ $course->description }}</p>
         <div class="course-container">
             <!-- قائمة الدروس -->
