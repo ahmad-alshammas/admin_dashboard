@@ -5,8 +5,9 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Etrain</title>
-    <link rel="icon" href="img/favicon.png">
+    <link rel="icon" href="{{asset('user_side/img/favicon.png')}}">
+    <title>Azzam Academy</title>
+  
     <!-- Bootstrap CSS -->
     @extends('user_side.inc.bootstrap')
 </head>
