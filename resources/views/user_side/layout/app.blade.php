@@ -17,11 +17,9 @@
 <body>
     <!--::header part start::-->
     <header class="main_menu home_menu">
-    @include('user_side.inc.header')
+        @include('user_side.inc.header')
     </header>
     <!-- Header part end-->
-
-    
 
     <!-- banner part start-->
     <section class="banner_part">
@@ -30,7 +28,7 @@
                 <div class="col-lg-6 col-xl-6">
                     <div class="banner_text">
                         <div class="banner_text_iner">
-                            <h5>My name is ahmad Azzam</h5>
+                            <h5>My name is Ahmad Azzam</h5>
                             <h1>Master Web Development with Ease</h1>
                             <p>Explore high-quality, free web development courses on Azzam Academy and build your digital future with confidence.</p>
                             <a href="{{'/courses'}}" class="btn_1">Get Started </a>
@@ -43,11 +41,10 @@
     <!-- banner part start-->
 
     <!-- feature_part start-->
-    <div class="container text-center mt-5">  
+    <div class="container text-center mt-5">
         <h2>Why Choose Azzam Academy?</h2>
         <p>Set have great you male grass yielding an yielding first their you're
             have called the abundantly fruit were man </p>
-        
     </div>
     <section class="feature_part">
         <div class="container">
@@ -97,19 +94,13 @@
     <section class="learning_part">
         <div class="container">
             <div class="row align-items-sm-center align-items-lg-stretch">
-                
                 <div class="col-md-5 col-lg-5">
                     <div class="learning_member_text">
                         <h5>About us</h5>
                         <h2>Empowering Learners, Building Futures</h2>
-                        <p>At Azzam Academy, we are dedicated to providing high-quality web development education for everyone. Our platform offers free, comprehensive courses in both front-end and back-end development, designed to help you acquire practical skills that are essential in the tech industry. Whether you're starting your web development journey or advancing your expertise, we are here to guide you every step of the way.
-
-                        </p>
-                        
-                        <a href="#" class="btn_1">Read More</a>
+                        <p>At Azzam Academy, we are dedicated to providing high-quality web development education for everyone. Our platform offers free, comprehensive courses in both front-end and back-end development, designed to help you acquire practical skills that are essential in the tech industry. Whether you're starting your web development journey or advancing your expertise, we are here to guide you every step of the way.</p>
+                        <a href="{{'/aboutus'}}" class="btn_1">Read More</a>
                     </div>
-
-                    
                 </div>
                 <div class="col-md-7 col-lg-7">
                     <div class="learning_img">
@@ -119,24 +110,34 @@
             </div>
         </div>
     </section>
-    <section class="special_cource padding_top">
+
+    <!-- Roadmap Section Start -->
+    <section class="roadmap_section padding_top">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-xl-5">
-                    <div class="section_tittle text-center">
-                        <h2> Latest courses </h2>
+                <div class="col-xl-8 text-center">
+                    <div class="section_tittle">
+                        <h2>Our Learning Roadmap</h2>
                     </div>
                 </div>
             </div>
-           
+            <div class="row justify-content-center mt-4">
+                <div class="col-md-10 text-center">
+                    <img src="{{ asset('user_side/img/roadmap.png') }}" alt="Web Development Roadmap" class="img-fluid">
+                </div>
+            </div>
+            <!-- زر الذهاب إلى Courses -->
+            <div class="row justify-content-center mt-4">
+                <div class="col-md-12 text-center">
+                    <a href="{{'/courses'}}" class="btn_1">Start with this roadmap</a>
+                </div>
+            </div>
         </div>
     </section>
-    <!--::blog_part end::-->
-
-
+    <!-- Roadmap Section End -->
 
     <!-- footer part start-->
-        @include('user_side.inc.footer');
+    @include('user_side.inc.footer')
     <!-- footer part end-->
 
     <!-- jquery plugins here-->

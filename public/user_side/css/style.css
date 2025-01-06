@@ -106,12 +106,14 @@ input:hover, input:focus {
 /* line 48, E:/172 Etrain Education/172_Etrain_Education_html/sass/_common.scss */
 .padding_top {
   padding-top: 80px;
+  margin-bottom: 50px;
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1200px) {
   /* line 48, E:/172 Etrain Education/172_Etrain_Education_html/sass/_common.scss */
   .padding_top {
     padding-top: 50px;
+    margin-bottom: 50px;
   }
 }
 
@@ -7293,5 +7295,14 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 0px;
 }
 
+
+.single_special_cource {
+  margin: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  background: #fff;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 /*# sourceMappingURL=style.css.map */
 

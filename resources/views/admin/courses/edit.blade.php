@@ -21,7 +21,7 @@
 
       <div class="mb-3">
         <label for="titlecourse" class="form-label">Price Course</label>
-        <input type="number" class="form-control" id="titlecourse" name="price" value="{{$course->price}}">
+        <input type="text" class="form-control" id="titlecourse" name="price" value="{{$course->price}}">
         
       </div>
 

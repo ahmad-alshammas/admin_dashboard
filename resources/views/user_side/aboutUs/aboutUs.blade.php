@@ -99,7 +99,6 @@
 
                         </p>
                         
-                        <a href="#" class="btn_1">Read More</a>
                     </div>
 
                     

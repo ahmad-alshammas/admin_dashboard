@@ -20,7 +20,7 @@
 
       <div class="mb-3">
         <label for="pricecourse" class="form-label">Price Course</label>
-        <input type="number" class="form-control" id="pricecourse" name="price" required>
+        <input type="text" class="form-control" id="pricecourse" name="price" required>
       </div>
 
       <div class="mb-3">
