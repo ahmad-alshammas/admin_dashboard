@@ -79,7 +79,6 @@ class LessonController extends Controller
         $lesson->update([
             'section_id' => $request->section_id,
             'title' => $request->title,
-            'content_url' => $request->content_url,
             'order' => $request->order,
         ]);
 

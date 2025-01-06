@@ -29,11 +29,7 @@
             <input type="text" name="title" id="title" class="form-control" value="{{ $lesson->title }}" required>
         </div>
 
-      
-        <div class="mb-3">
-            <label for="content_url" class="form-label">Content URL</label>
-            <input type="text" name="content_url" id="content_url" class="form-control" value="{{ $lesson->content_url }}" required>
-        </div>
+
 
       
         <div class="mb-3">

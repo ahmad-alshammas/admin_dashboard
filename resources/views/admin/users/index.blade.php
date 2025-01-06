@@ -16,7 +16,6 @@
                     <tr>
                         <th>Name</th>
                         <th>email</th>
-                        <th>gender</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -26,7 +25,6 @@
                 <tr>
                     <td>{{$user->name}}</td>
                     <td>{{$user->email}}</td>
-                    <td>{{$user->gender}}</td>
                     
                     <td>
                        <a href="{{route('users.edit', $user->id)}}"> <button type="button" class="btn btn-info">Edit</button></a>

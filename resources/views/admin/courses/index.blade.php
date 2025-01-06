@@ -21,7 +21,6 @@
                         <th>title</th>
                         <th>price</th>
                         <th>image</th>
-                        <th>instructor</th>
                         <th>category</th>
                         <th>Action</th>
                     </tr>
@@ -37,7 +36,6 @@
                     <td>
                         <img src="{{asset($course->image)}}" width="100px" height="100px" alt="image">
                     </td>
-                    <td>{{ $course->instructor->name}}</td>
                     <td>{{ $course->category ? $course->category->name : 'No Category' }}</td>
                     <td>
                         <a href="{{route('courses.edit', $course->id)}}"><button type="button" class="btn btn-info">Edit</button></a>
