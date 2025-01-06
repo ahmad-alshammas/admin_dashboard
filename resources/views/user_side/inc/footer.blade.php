@@ -1,61 +1,73 @@
 <footer class="footer-area">
     <div class="container">
         <div class="row justify-content-between">
+            <!-- First Section: General Information -->
             <div class="col-sm-6 col-md-4 col-xl-3">
                 <div class="single-footer-widget footer_1">
-                    {{-- <a href="index.html"> <img src="img/logo.png" alt=""> </a> --}}
-                    <p>But when shot real her. Chamber her one visite removal six
-                        sending himself boys scot exquisite existend an </p>
-                    <p>But when shot real her hamber her </p>
+                    <a href="{{ url('/') }}">
+                        <img src="{{ asset('user_side/img/logo.png') }}" alt="Logo" class="img-fluid">
+                    </a>
+                    <p>
+                        We are here to help you achieve your educational goals. Explore our premium courses and start your journey towards success.
+                    </p>
+                    <p>
+                        "Learning is the beginning, and creativity is the end."
+                    </p>
                 </div>
             </div>
+
+            <!-- Second Section: Newsletter and Social Links -->
             <div class="col-sm-6 col-md-4 col-xl-4">
                 <div class="single-footer-widget footer_2">
-                    <h4>Newsletter</h4>
-                    <p>Stay updated with our latest trends Seed heaven so said place winged over given forth fruit.
+                    <h4>My Account</h4>
+                    <p>
+                        Follow me on Linkedin and Github
                     </p>
-                    <form action="#">
-                        <div class="form-group">
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder='Enter email address'
-                                    onfocus="this.placeholder = ''"
-                                    onblur="this.placeholder = 'Enter email address'">
-                                <div class="input-group-append">
-                                    <button class="btn btn_1" type="button"><i class="ti-angle-right"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                    <div class="social_icon">
-                        <a href="#"> <i class="ti-facebook"></i> </a>
-                        <a href="#"> <i class="ti-twitter-alt"></i> </a>
-                        <a href="#"> <i class="ti-instagram"></i> </a>
-                        <a href="#"> <i class="ti-skype"></i> </a>
+                    <div class="social_icon mt-4">
+                        <a href="https://www.linkedin.com/in/ahmad-al-shammas" target="_blank" class="mr-3">
+                            <i class="ti-linkedin"></i>
+                        </a>
+                        <a href="https://github.com/ahmad-alshammas" target="_blank">
+                            <i class="ti-github"></i>
+                        </a>
                     </div>
                 </div>
             </div>
+
+            <!-- Third Section: Contact Information -->
             <div class="col-xl-3 col-sm-6 col-md-4">
                 <div class="single-footer-widget footer_2">
-                    <h4>Contact us</h4>
+                    <h4>Contact Us</h4>
                     <div class="contact_info">
-                        <p><span> Address :</span> Hath of it fly signs bear be one blessed after </p>
-                        <p><span> Phone :</span> +2 36 265 (8060)</p>
-                        <p><span> Email : </span>info@colorlib.com </p>
+                        <p>
+                            <span>Address:</span>
+                            Jordan, Zarqa
+                        </p>
+                        <p>
+                            <span>Phone:</span>
+                            <a href="tel:+962788076258">+962 788076258</a>
+                        </p>
+                        <p>
+                            <span>Email:</span>
+                            <a href="mailto:ahmad.a.alshammas@gmail.com">ahmad.a.alshammas@gmail.com</a>
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
+
+    <!-- Copyright Section -->
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
                 <div class="copyright_part_text text-center">
                     <div class="row">
                         <div class="col-lg-12">
-                            <p class="footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                            <p class="footer-text m-0">
+                                &copy; {{ date('Y') }} All rights reserved | Designed by 
+                               <span style="color: #3085d6">Ahmad Al-Shammas</span> 
+                            </p>
                         </div>
                     </div>
                 </div>
