@@ -19,3 +19,5 @@
     <script src="{{asset('user_side/js/waypoints.min.js')}}"></script> --}}
     <!-- custom js -->
     <script src="{{asset('user_side/js/custom.js')}}"></script>
+
+    

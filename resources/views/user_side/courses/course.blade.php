@@ -54,9 +54,49 @@
         .favorite-icon .fas.text-danger {
             color: #ff0000; /* لون القلب عند التفضيل */
         }
+
+        /* تنسيق الـ Loader */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 1); /* خلفية شبه شفافة */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* للتأكد من ظهوره فوق كل شيء */
+        }
+
+        /* تصميم الـ Spinner */
+        .spinner {
+            border: 8px solid #f3f3f3; /* لون الخلفية */
+            border-top: 8px solid #3498db; /* لون الـ Spinner */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite; /* دوران الـ Spinner */
+        }
+
+        /* دوران الـ Spinner */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* إخفاء المحتوى أثناء التحميل */
+        .content {
+            padding: 20px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
+
+    <div id="loader" class="loader">
+        <div class="spinner"></div>
+    </div>
     <!--::header part start::-->
     <header class="main_menu single_page_menu">
         @include('user_side.inc.header')
@@ -264,5 +304,20 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        // انتظر حتى يتم تحميل الصفحة بالكامل
+        window.addEventListener("load", function () {
+            // إخفاء الـ Loader بعد 3 ثوانٍ
+            setTimeout(function () {
+                const loader = document.getElementById("loader");
+                loader.style.display = "none";
+
+                // إظهار محتوى الصفحة
+                const content = document.getElementById("content");
+                content.style.display = "block";
+            }, 300); // 3000 ميلي ثانية = 3 ثوانٍ
+        });
+</script>
 </body>
 </html>
