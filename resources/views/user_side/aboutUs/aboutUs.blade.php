@@ -79,9 +79,6 @@
 
     <div class="container text-center mt-5">  
         <h2>Why Choose Azzam Academy?</h2>
-        <p>Set have great you male grass yielding an yielding first their you're
-            have called the abundantly fruit were man </p>
-        
     </div>
     <section class="feature_part">
         <div class="container">
