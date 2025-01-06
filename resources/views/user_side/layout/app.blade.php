@@ -138,7 +138,7 @@
                         <h5>About us</h5>
                         <h2>Empowering Learners, Building Futures</h2>
                         <p>At Azzam Academy, we are dedicated to providing high-quality web development education for everyone. Our platform offers free, comprehensive courses in both front-end and back-end development, designed to help you acquire practical skills that are essential in the tech industry. Whether you're starting your web development journey or advancing your expertise, we are here to guide you every step of the way.</p>
-                        <a href="{{'/aboutus'}}" class="btn_1">Read More</a>
+                        
                     </div>
                 </div>
                 <div class="col-md-7 col-lg-7">
