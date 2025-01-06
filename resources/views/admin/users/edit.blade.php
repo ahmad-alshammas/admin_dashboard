@@ -15,26 +15,6 @@
     </div>
 
       
-      <div class="mb-3" >
-        <label for="gender">Choose a gender:</label>
-        <select name="gender" id="gender">
-        <option value="male">male</option>
-        <option value="female">female</option>
-        </select>
-       
-      </div>
-
-
-      <div class="mb-3">
-        <label for="role">Choose a role:</label>
-        <select name="role" id="role">
-        <option value="student">student</option>
-        <option value="instructor">instructor</option> 
-        <option value="admin">admin</option> 
-        </select>
-       
-      </div>
-    
    
     <button type="submit" class="btn btn-primary">Update</button>
   </form>

@@ -40,8 +40,8 @@ class UserController extends Controller
             'name' => $request -> name,
             'email' => $request -> email,
             'password' => $request -> password,
-            'gender' => $request -> gender,
-            'role' => $request -> role,
+            // 'gender' => $request -> gender,
+            // 'role' => $request -> role,
         ]);
 
             return redirect()->route('users.index')->with('successAdd','users Added successfully!');
@@ -75,8 +75,6 @@ class UserController extends Controller
 
         $find_user -> update([
             'name' => $name,
-            'gender' => $gender,
-            'role' => $role,
         ]);
 
         return redirect()->route('users.index',$id)->with('successUpdate', 'User updated successfully!');
