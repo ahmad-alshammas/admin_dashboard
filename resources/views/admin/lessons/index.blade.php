@@ -30,7 +30,7 @@
                     <tr>
                         <td>{{ $lesson->id }}</td>
                         <td>{{ $lesson->title }}</td>
-                        <td>{{ $lesson->section->title }}</td>
+                        <td>{{ optional($lesson->section)->title ?? 'No Section' }}</td>
                         <td>{{ $lesson->order }}</td>
                         <td>
                             <a href="{{ route('lessons.edit', $lesson->id) }}" class="btn btn-info">Edit</a>
@@ -59,8 +59,8 @@
             text: "This action cannot be undone!",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
             confirmButtonText: 'Yes, delete it!',
             cancelButtonText: 'Cancel'
         }).then((result) => {
