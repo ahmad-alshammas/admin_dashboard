@@ -44,7 +44,7 @@ class CourseController extends Controller
             'description' => 'required | max:255 | string',
             'price' => 'required | numeric',
             'image' => 'required | mimes:png,jpg,jpeg',
-            'instructor_id' => 'required|exists:users,id'
+            'instructor_id' => 'null|exists:users,id'
         ]);
 
         if($request -> has('image')){

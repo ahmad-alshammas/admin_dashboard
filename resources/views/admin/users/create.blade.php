@@ -8,7 +8,7 @@
 
     @csrf
     <div class="mb-3">
-      <label for="name" class="form-label">Full Name</label>
+      <label for="name" class="form-label">Name</label>
       <input type="text" class="form-control" id="titlecourse" name="name" required>
       
     </div>
@@ -24,7 +24,7 @@
       </div>
 
       
-      <div class="mb-3" >
+      {{-- <div class="mb-3" >
         <label for="gender">Choose a gender:</label>
         <select name="gender" id="gender">
         <option value="male">male</option>
@@ -42,7 +42,7 @@
         <option value="admin">admin</option> 
         </select>
        
-      </div>
+      </div> --}}
     
    
     <button type="submit" class="btn btn-primary">Add</button>

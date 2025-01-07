@@ -29,13 +29,13 @@
       </div>
 
       <div class="mb-3">
-        <label for="instructor">Instructor</label>
+        {{-- <label for="instructor">Instructor</label>
         <select name="instructor_id" id="instructor" class="form-control">
             <option value="" disabled selected>Select an Instructor</option>
             @foreach ($instructors as $instructor)
                 <option value="{{ $instructor->id }}">{{ $instructor->name }}</option>
             @endforeach
-        </select>
+        </select> --}}
      
         <div class="mb-3 mt-2">
           <label for="category_id" class="form-label">Category</label>
